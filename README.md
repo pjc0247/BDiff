@@ -8,7 +8,14 @@ Usage
 var f1 = BHash.Load("c:\\sample_android_3.apk");
 var f2 = BHash.Load("c:\\sample_android_3.apk");
 
-Console.WriteLine(f1.IsSame(f2));
+// f1과 f2에 차이가 있는 오프셋 리스트를 반환합니다.
+var diffPoints = f1.FindDiff(f2);
+
+// f1과 f2중 첫 번째로 차이가 있는 오프셋을 반환합니다.
+var firstDiffPoint = f1.FindFirstDiffPoint(f2);
+
+// f1과 f2가 가리키는 파일이 서로 같은지 비교합니다.
+var isSame = f1.IsSame(f2);
 ```
 
 각각의 BHash 인스턴스는 재사용을 위해 저장될 수 있습니다.<br>
