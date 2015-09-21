@@ -23,3 +23,7 @@ var isSame = f1.IsSame(f2);
 ```c#
 예제 추가
 ```
+
+Flags
+----
+* 가능하다면 BHASH_USE_MEMCMP 플래그를 활성화 하여, 바이트 배열 비교에 byte[]를 사용할 수 있습니다.
