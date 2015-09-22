@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 
 public class BHash
-    {
+{
 #if BHASH_USING_MEMCMP
         [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
         static extern int memcmp(byte[] b1, byte[] b2, long count);
@@ -23,6 +23,17 @@ public class BHash
             Blocks = new List<byte[]>();
         }
 
+        public static BHash Load(byte[] data)
+        {
+            var bhash = new BHash();
+            var mem = new MemoryStream(data);
+            var cvt = new BinaryFormatter();
+            
+            bhash.FileSize = (long)cvt.Deserialize(mem);
+            bhash.Blocks = (List<byte[]>)cvt.Deserialize(mem);
+
+            return bhash;
+        }
         public static BHash Load(String path)
         {
             var bhash = new BHash();
@@ -44,6 +55,17 @@ public class BHash
             return bhash;
         }
 
+        public byte[] Save()
+        {
+            var mem = new MemoryStream();
+            var cvt = new BinaryFormatter();
+
+            cvt.Serialize(mem, FileSize);
+            cvt.Serialize(mem, Blocks);
+            mem.Flush();
+
+            return mem.ToArray();
+        }
 
         private bool IsSameBlock(byte[] block1, byte[] block2)
         {
@@ -117,4 +139,4 @@ public class BHash
         {
             return (BHash.Load(path1)).FindFirstDiffPoint(BHash.Load(path2));
         }
-    }
+}
